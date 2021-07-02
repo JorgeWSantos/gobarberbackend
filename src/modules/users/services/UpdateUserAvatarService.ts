@@ -3,6 +3,7 @@ import fs from 'fs';
 import uplodConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
+import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import User from '../infra/typeorm/entities/User';
 import IUserRepository from '../interfaces/IUsersRepository';
 
@@ -16,6 +17,9 @@ class UpdateUserAvatarService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
+
+    @inject('StorageProvider')
+    private storageProvider: IStorageProvider,
   ) {}
 
   public async execute({
@@ -28,16 +32,12 @@ class UpdateUserAvatarService {
       throw new AppError('Only Authenticated users can change avatar.', 401);
     }
 
-    if (user.avatar) {
-      const userAvatarFilePath = path.join(uplodConfig.directory, user.avatar);
-      const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath); // find file
+    if (user.avatar) this.storageProvider.deleteFile(user.avatar);
 
-      if (userAvatarFileExists) {
-        await fs.promises.unlink(userAvatarFilePath); // delete file
-      }
-    }
+    const fileName = await this.storageProvider.saveFile(avatar_file_name);
 
-    user.avatar = avatar_file_name;
+    user.avatar = fileName;
+
     await this.usersRepository.save(user);
 
     return user;
