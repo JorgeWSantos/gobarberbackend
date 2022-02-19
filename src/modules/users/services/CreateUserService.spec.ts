@@ -1,5 +1,5 @@
 import AppError from '@shared/errors/AppError';
-import FakeUsersRepository from '../fakes/FakeUsersRepository';
+import FakeUsersRepository from '../infra/typeorm/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProviders/fakes/FakeHashProvider';
 import CreateUserService from './CreateUserService';
 
@@ -37,7 +37,7 @@ describe('CreateUser', () => {
       password: 'john123',
     });
 
-    expect(
+    await expect(
       createUser.execute({
         name: 'john',
         email: 'john@gmail.com',

@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import User from '../infra/typeorm/entities/User';
-import IUserRepository from '../interfaces/IUsersRepository';
+import IUserRepository from '../infra/typeorm/interfaces/IUsersRepository';
 
 interface IRequestUserAvatar {
   user_id: string;

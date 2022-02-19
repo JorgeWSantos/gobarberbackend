@@ -1,9 +1,9 @@
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-import IUserRepository from '@modules/users/interfaces/IUsersRepository';
+import IUserRepository from '@modules/users/infra/typeorm/interfaces/IUsersRepository';
 import User from '@modules/users/infra/typeorm/entities/User';
 import { v4 } from 'uuid';
 
-export default class UserRepository implements IUserRepository {
+export default class FakeUsersRepository implements IUserRepository {
   private users: User[] = [];
 
   public async findById(id: string): Promise<User | undefined> {
