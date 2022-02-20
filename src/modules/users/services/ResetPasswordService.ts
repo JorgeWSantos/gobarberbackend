@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { isAfter, addHours } from 'date-fns';
 
 import IUserRepository from '../infra/typeorm/interfaces/IUsersRepository';
-import IUserTokenRepository from '../infra/typeorm/interfaces/IUserTokenRepository';
+import IUserTokensRepository from '../infra/typeorm/interfaces/IUserTokensRepository';
 import IHashProvider from '../providers/HashProviders/models/IHashProvider';
 
 interface IRequest {
@@ -17,15 +17,15 @@ class ResetPasswordService {
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
 
-    @inject('UsersRepository')
-    private userTokenRepository: IUserTokenRepository,
+    @inject('UserTokensRepository')
+    private userTokensRepository: IUserTokensRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) {}
 
   public async execute({ token, password }: IRequest): Promise<void> {
-    const userToken = await this.userTokenRepository.findByToken(token);
+    const userToken = await this.userTokensRepository.findByToken(token);
 
     if (!userToken) {
       throw new AppError('User token does not exists.');

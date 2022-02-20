@@ -9,7 +9,7 @@ class UserAvatarController {
       const user_id = request.user.id;
       const user = await updateUserAvatar.execute({
         user_id,
-        avatar_file_name: request.file.filename,
+        avatar_file_name: request.file?.filename || '',
       });
 
       delete user.password;
