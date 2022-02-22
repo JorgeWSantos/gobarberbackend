@@ -3,7 +3,7 @@ import { isEqual } from 'date-fns';
 
 import IAppointmentsRepository from '@modules/appointments/interfaces/IAppointmentsRepository';
 import ICreateAppointment from '@modules/appointments/dtos/ICreateAppointmentDTO';
-import Appointment from '../infra/typeorm/entities/Appointment';
+import Appointment from '../../entities/Appointment';
 
 export default class FakeAppointmentsRepository
   implements IAppointmentsRepository {

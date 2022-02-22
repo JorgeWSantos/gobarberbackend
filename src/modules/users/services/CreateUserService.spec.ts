@@ -3,16 +3,24 @@ import FakeUsersRepository from '../infra/typeorm/repositories/fakes/FakeUsersRe
 import FakeHashProvider from '../providers/HashProviders/fakes/FakeHashProvider';
 import CreateUserService from './CreateUserService';
 
-describe('CreateUser', () => {
-  it('should be able to create a new user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUser: CreateUserService;
 
-    const createUser = new CreateUserService(
+describe('CreateUser', () => {
+
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+
+    createUser = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     );
 
+  })
+
+  it('should be able to create a new user', async () => {
     const userCreated = await createUser.execute({
       name: 'john',
       email: 'john@gmail.com',
@@ -23,14 +31,6 @@ describe('CreateUser', () => {
   });
 
   it('should not be able to create a new user with an existing email', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     await createUser.execute({
       name: 'john',
       email: 'john@gmail.com',
