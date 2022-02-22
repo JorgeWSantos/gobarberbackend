@@ -4,7 +4,7 @@ import { isAfter, addHours } from 'date-fns';
 
 import IUserRepository from '../infra/typeorm/interfaces/IUsersRepository';
 import IUserTokensRepository from '../infra/typeorm/interfaces/IUserTokensRepository';
-import IHashProvider from '../providers/HashProviders/models/IHashProvider';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
   password: string;

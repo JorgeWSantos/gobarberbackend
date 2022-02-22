@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '../infra/typeorm/repositories/fakes/FakeUsersRepository';
-import FakeHashProvider from '../providers/HashProviders/fakes/FakeHashProvider';
+import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import CreateUserService from './CreateUserService';
 
 let fakeUsersRepository: FakeUsersRepository;

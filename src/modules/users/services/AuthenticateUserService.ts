@@ -3,7 +3,7 @@ import User from '@modules/users/infra/typeorm/entities/User';
 import AuthConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
-import IHashProvider from '@modules/users/providers/HashProviders/models/IHashProvider';
+import IHashProvider from '@modules/users/providers/HashProvider/models/IHashProvider';
 import IUserRepository from '../infra/typeorm/interfaces/IUsersRepository';
 
 interface IRequestAuthenticate {

@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '../infra/typeorm/repositories/fakes/FakeUsersRepository';
 import FakeUsersTokenRepository from '../infra/typeorm/repositories/fakes/FakeUsersTokenRepository';
 import ResetPasswordService from './ResetPasswordService';
-import FakeHashProvider from '../providers/HashProviders/fakes/FakeHashProvider';
+import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeUsersTokenRepository: FakeUsersTokenRepository;
