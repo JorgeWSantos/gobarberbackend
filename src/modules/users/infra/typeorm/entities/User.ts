@@ -18,7 +18,7 @@ class User {
   email: string;
 
   @Column()
-  password?: string;
+  password: string;
 
   @Column('timestamp with time zone')
   date: Date;
