@@ -2,14 +2,13 @@ import AppError from '@shared/errors/AppError';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '../infra/typeorm/repositories/fakes/FakeUsersRepository';
 import UpdateProfileService from './UpdateProfileService';
-// import CreateUserService from './CreateUserService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 
 let updateProfile: UpdateProfileService;
 
-describe('UpdateUserAvatar', () => {
+describe('UpdateProfile', () => {
 
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
@@ -89,6 +88,30 @@ describe('UpdateUserAvatar', () => {
       email: 'jorge@jorgin.com',
       password: '11234fdg',
       old_password: 'wrong-old-password'
+    })).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to update an non-existing profile', async () => {
+    await expect(updateProfile.execute({
+      user_id: 'non-existing-id',
+      email: 'jorge@gmail.com',
+      name: 'jorge',
+    })).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should not be able to update an non-existing profile', async () => {
+
+    const user = await fakeUsersRepository.create({
+      name: 'jorge willian',
+      email: 'jorgews.dev@gmail.com',
+      password: '11234',
+    });
+
+    await expect(updateProfile.execute({
+      user_id: user.id,
+      email: 'jorge@gmail.com',
+      name: 'jorge',
+      password: 'teste'
     })).rejects.toBeInstanceOf(AppError);
   });
 });
