@@ -11,13 +11,26 @@ interface IRequestAuthenticate {
   password: string;
 }
 
+interface IUserResponse {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  date: Date;
+  created_at: Date;
+  updated_at: Date;
+  avatar?: string;
+}
+
 interface IResponse {
-  user: User;
+  user: IUserResponse;
   token: string;
 }
 
 @injectable()
 class AuthenticateUserService {
+  private userWithoutPassword: IUserResponse;
+
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
@@ -37,7 +50,7 @@ class AuthenticateUserService {
 
     const passwordMatched = await this.hashProvider.compareHash(
       password,
-      user.password || '',
+      user.password,
     );
 
     if (!passwordMatched) {
@@ -50,7 +63,9 @@ class AuthenticateUserService {
       expiresIn,
     });
 
-    delete user.password;
+    // @ts-expect-error
+    delete user['password'];
+
     return { user, token };
   }
 }

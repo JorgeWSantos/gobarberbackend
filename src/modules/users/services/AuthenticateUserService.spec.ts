@@ -8,7 +8,6 @@ let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let createUser: CreateUserService;
 let authenticateUser: AuthenticateUserService;
-let userCreated: CreateUserService;
 
 describe('AuthenticateUser', () => {
 
