@@ -1,6 +1,7 @@
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
+import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
 import IUserRepository from '@modules/users/infra/typeorm/interfaces/IUsersRepository';
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Not } from 'typeorm';
 import User from '../entities/User';
 
 export default class UserRepository implements IUserRepository {
@@ -34,5 +35,26 @@ export default class UserRepository implements IUserRepository {
     await this.userRepository.save(user);
 
     return user;
+  }
+
+  public async findAllProviders({ except_user_id }: IFindAllProvidersDTO): Promise<User[]> {
+    let users: User[];
+
+    if(except_user_id) {
+      users = await this.userRepository.find({
+        where: {
+          id: Not(except_user_id)
+        }
+      });
+    }
+
+    else {
+      users = await this.userRepository.find();
+    }
+
+    // @ts-expect-error
+    users.map(user => (delete user.password))
+
+    return users;
   }
 }

@@ -11,26 +11,13 @@ interface IRequestAuthenticate {
   password: string;
 }
 
-interface IUserResponse {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  date: Date;
-  created_at: Date;
-  updated_at: Date;
-  avatar?: string;
-}
-
 interface IResponse {
-  user: IUserResponse;
+  user: User;
   token: string;
 }
 
 @injectable()
 class AuthenticateUserService {
-  private userWithoutPassword: IUserResponse;
-
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUserRepository,

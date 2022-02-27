@@ -20,7 +20,7 @@ class ProfileController {
       if(error instanceof AppError)
         return response.status(400).json({ error: error.message });
 
-      return response.status(500)
+      return response.status(500).json()
     }
   }
 
@@ -43,7 +43,7 @@ class ProfileController {
       if(error instanceof AppError)
         return response.status(400).json({ error: error.message });
 
-      return response.status(500)
+      return response.status(500).json()
     }
   }
 }
