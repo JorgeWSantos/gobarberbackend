@@ -5,14 +5,11 @@ let fakeUsersRepository: FakeUsersRepository;
 let listProviders: ListProviderService;
 
 describe('ListProvider', () => {
-
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
 
-    listProviders = new ListProviderService(
-      fakeUsersRepository,
-    );
-  })
+    listProviders = new ListProviderService(fakeUsersRepository);
+  });
 
   it('should be able to list the providers', async () => {
     const user1 = await fakeUsersRepository.create({
@@ -34,13 +31,10 @@ describe('ListProvider', () => {
     });
 
     const providers = await listProviders.execute({
-      user_id: loggedUser.id
-    })
+      user_id: loggedUser.id,
+    });
 
-    expect(providers).toEqual([
-      user1,
-      user2,
-    ]);
+    expect(providers).toEqual([user1, user2]);
   });
 
   it('should not be able to see the providers password', async () => {
@@ -63,16 +57,9 @@ describe('ListProvider', () => {
     });
 
     const providers = await listProviders.execute({
-      user_id: loggedUser.id
-    })
+      user_id: loggedUser.id,
+    });
 
-    console.log('allProviders', providers)
-
-    expect(providers).toEqual([
-      user1,
-      user2,
-    ]);
+    expect(providers).toEqual([user1, user2]);
   });
-
-
 });

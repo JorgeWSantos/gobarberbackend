@@ -5,7 +5,7 @@ import ListProviderService from '@modules/appointments/services/ListProviderServ
 import AppError from '@shared/errors/AppError';
 
 class AppointmentsController {
-  public async create(request: Request, response: Response): Promise<Response> {
+  public async index(request: Request, response: Response): Promise<Response> {
     try {
       const user_id = request.user.id;
 
@@ -17,10 +17,10 @@ class AppointmentsController {
 
       return response.status(200).json(providers);
     } catch (error) {
-      if(error instanceof AppError)
+      if (error instanceof AppError)
         return response.status(400).json({ error: error.message });
 
-      return response.status(500).json()
+      return response.status(500).json();
     }
   }
 }

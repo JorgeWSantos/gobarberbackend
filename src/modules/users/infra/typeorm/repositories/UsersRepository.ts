@@ -37,23 +37,22 @@ export default class UserRepository implements IUserRepository {
     return user;
   }
 
-  public async findAllProviders({ except_user_id }: IFindAllProvidersDTO): Promise<User[]> {
+  public async findAllProviders({
+    except_user_id,
+  }: IFindAllProvidersDTO): Promise<User[]> {
     let users: User[];
 
-    if(except_user_id) {
+    if (except_user_id) {
       users = await this.userRepository.find({
         where: {
-          id: Not(except_user_id)
-        }
+          id: Not(except_user_id),
+        },
       });
-    }
-
-    else {
+    } else {
       users = await this.userRepository.find();
     }
 
-    // @ts-expect-error
-    users.map(user => (delete user.password))
+    users.map(user => delete user.password);
 
     return users;
   }

@@ -27,33 +27,38 @@ class UpdateProfileService {
     name,
     email,
     password,
-    old_password
+    old_password,
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
-    if(!user){
+    if (!user) {
       throw new AppError('User not found');
     }
 
     const userEmailExists = await this.usersRepository.findByEmail(email);
 
-    if(userEmailExists && userEmailExists.id !== user_id)
+    if (userEmailExists && userEmailExists.id !== user_id)
       throw new AppError('E-mail already exists.');
 
     user.name = name;
     user.email = email;
 
-    if(password && !old_password)
-      throw new AppError('You need to inform the old password to set a new password.');
+    if (password && !old_password)
+      throw new AppError(
+        'You need to inform the old password to set a new password.',
+      );
 
+    if (password && old_password) {
+      let checkOldPassword: boolean;
 
-    if(password && old_password) {
-      const checkOldPassword = await this.hashProvider.compareHash(old_password, user.password);
+      checkOldPassword = await this.hashProvider.compareHash(
+        old_password,
+        user.password as string,
+      );
 
       user.password = await this.hashProvider.generateHash(password);
 
-      if(!checkOldPassword)
-        throw new AppError('Old password does not match.');
+      if (!checkOldPassword) throw new AppError('Old password does not match.');
     }
 
     return this.usersRepository.save(user);
